@@ -238,7 +238,7 @@ ecs.sys = function(include,exclude,func)
 		
 		for entity in pairs(cache.changed_entities) do
 			-- Clean up the entity's deleted components.
-			for key in all(to_remove) do
+			for key in all(entity.to_remove) do
 				entity.comps[key] = nil
 			end
 			-- Recheck if entities that have changed match the query.
