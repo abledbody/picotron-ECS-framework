@@ -1,0 +1,5 @@
+{
+    "Lua.diagnostics.globals": [
+        "add","all","del","deli","flr"
+    ]
+}
