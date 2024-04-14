@@ -1,5 +1,5 @@
---[[pod_format="raw",created="2024-04-07 18:38:25",modified="2024-04-13 04:21:06",revision=2156]]
--- able's ECS framework v1.0
+--[[pod_format="raw",created="2024-04-07 18:38:25",modified="2024-04-14 19:17:25",revision=2157]]
+-- able's ECS framework v1.1
 
 -- CONSTANTS --
 
