@@ -1,3 +1,5 @@
+The `ecs.lua` file contains the entire ECS framework. The rest of this repository is a demo which both shows the framework in use, and provides a concrete sample of how to use it.
+
 ## API
 ### `ecs`
 The ECS framework module.
