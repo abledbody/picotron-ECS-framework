@@ -1,5 +1,5 @@
 --[[pod_format="raw",created="2024-04-07 18:38:25",modified="2024-04-14 21:01:23",revision=2160]]
--- able's ECS framework v1.2
+-- able's ECS framework v2.0
 
 ecs = {}
 
