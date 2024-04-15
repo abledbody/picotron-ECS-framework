@@ -65,16 +65,20 @@ end
 local ref_meta = {
 	__mode = "v",
 	__call = function(self)
-		return self.entity
+		return self.entity and not self.entity.destroyed and self.entity
 	end
 }
 
 -- Creates and returns a new entity.
 -- world: The world where the entity will exist.
+-- Returns: The entity.
 local function ent(world)
 	local entity = {
 		world = world,
-		-- Keys are component names, values are components.
+		-- A map of all components on the entity.
+		-- Keys are component type names, values are components.
+		-- Can be used to fetch optional components or the components of
+		-- referenced entities during system execution.
 		comps = {},
 		-- Array of keys. Represents all components which need to be removed before
 		-- the next system call executes.
@@ -83,7 +87,8 @@ local function ent(world)
 		bitmask = new_bitmask(world),
 		destroyed = false,
 		
-		-- Adds a new component to the entity.
+		-- Adds a component to the entity. 
+		-- Calling a function created by `ecs.comp` will return both arguments at once.
 		-- comp: The component to add.
 		-- key: The name of the component type.
 		-- Returns: The entity, for chaining.
@@ -95,7 +100,8 @@ local function ent(world)
 			return self
 		end,
 		
-		-- Removes a component from the entity.
+		-- Removes a component from the entity. Note that the act of removing it from
+		-- the `entity.comps` table is deferred until the next system execution call.
 		-- key: The name of the component type.
 		-- Returns: The entity, for chaining.
 		remove = function(self,key)
@@ -132,8 +138,9 @@ local function ent(world)
 		end,
 		
 		-- Creates a weak reference to the entity.
-		-- Returns: A table which can be called to retrieve the entity
-		-- if it still exists.
+		-- Useful for referencing entities from other entities.
+		-- Returns: A callable table. When called, it will return the entity if 
+		-- it still exists, or nil if not.
 		ref = function(self)
 			local o = {entity = self}
 			setmetatable(o,ref_meta)
@@ -181,6 +188,7 @@ end
 -- [optional] tab: The table to put the component in.
 -- key: The name of the component type.
 -- constructor: The function which creates a new instance of the component.
+-- Returns: A component type table which can be called to create new components.
 function ecs.comp(world,tab,key,constructor)
 	-- world and tab are optional args.
 	if not key then
