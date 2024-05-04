@@ -34,12 +34,16 @@ A single independent instance of an ECS.
 - **Returns:** The world object, for chaining.
 
 `world:reg_sys(sys_data)` Registers a system with the world.
-- `world` - The world object to register the system with.
 - `system_data` - The system data to register.
 - **Returns:** The world object, for chaining.
 
 `world:ent()` Creates a new entity.
 - **Returns:** The entity.
+
+`world:run(sys_data)` Executes a system for the world.
+- `sys_data` - The system data to execute.
+- `...` - Additional arguments to pass to the system.
+- **Returns:** The world object, for chaining.
 
 ### `query`
 An iterator which returns a component for each entry in a system's `include` argument, plus the entity which possesses them.
