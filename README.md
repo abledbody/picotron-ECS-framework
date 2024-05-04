@@ -40,7 +40,7 @@ A single independent instance of an ECS.
 `world:ent()` Creates a new entity.
 - **Returns:** The entity.
 
-`world:run(sys_data)` Executes a system for the world.
+`world:run(sys_data,...)` Executes a system for the world.
 - `sys_data` - The system data to execute.
 - `...` - Additional arguments to pass to the system.
 - **Returns:** The world object, for chaining.
