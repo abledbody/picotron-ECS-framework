@@ -1,5 +1,5 @@
---[[pod_format="raw",created="2024-04-07 18:38:25",modified="2024-04-14 21:01:23",revision=2160]]
--- able's ECS framework v2.0
+--[[pod_format="raw",created="2024-04-07 18:38:25",modified="2024-05-10 01:34:49",revision=2161]]
+-- able's ECS framework v2.1
 
 ecs = {}
 
@@ -189,18 +189,20 @@ end
 -- key: The name of the component type.
 -- constructor: The function which creates a new instance of the component.
 -- Returns: A component type table which can be called to create new components.
-function ecs.comp(world,tab,key,constructor)
+function ecs.comp(_a,_b,_c,_d)
 	-- world and tab are optional args.
-	if not key then
-		world,tab,key,constructor = nil,nil,tab,world
-	elseif not constructor then
-		key,constructor = tab,key
+	local world,tab,key,constructor
+	if not _c then
+		world,tab,key,constructor = nil,nil,_a,_b
+	elseif not _d then
 		-- comp_id_counter is an indication of being a world table.
 		if world.comp_id_counter then
-			tab = nil
+			world,tab,key,constructor = _a,nil,_b,_c
 		else
-			world,tab = nil,world
+			world,tab,key,constructor = nil,_a,_b,_c
 		end
+	else
+		world,tab,key,constructor = _a,_b,_c,_d
 	end
 	
 	local output = {
@@ -312,17 +314,20 @@ end
 -- [optional] exclude: The components which entities must not have to be included in the query
 -- func: The function which processes receives the query and processes the entities.
 -- Returns: The system data.
-function ecs.sys(world,include,exclude,func)
+function ecs.sys(_a,_b,_c,_d)	
 	-- world and exclude are optional args
-	if not exclude then
-		include,exclude,func = world,{},include
-	elseif not func then
+	local world,include,exclude,func
+	if not _c then
+		world,include,exclude,func = nil,_a,{},_b
+	elseif not _d then
 		-- comp_id_counter is an indication of being a world table.
-		if world.comp_id_counter then
-			exclude,func = {},exclude
+		if _a.comp_id_counter then
+			world,include,exclude,func = _a,_b,{},_c
 		else
-			include,exclude,func = world,include,exclude
+			world,include,exclude,func = nil,_a,_b,_c
 		end
+	else
+		world,_include,exclude,func = _a,_b,_c,_d
 	end
 	
 	local system_data = {
